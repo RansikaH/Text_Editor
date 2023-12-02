@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -7,20 +6,165 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Text Editor - [CT/2019/025]</title>
+    <style>
+        ul {
+            list-style-type: none;
+            background-color: rgb(49, 45, 45);
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        li {
+            display: inline;
+
+        }
+
+        img {
+            width: 15px;
+            height: 15px;
+            border: none;
+
+        }
+
+        button {
+            border: none;
+            background-color: rgb(49, 45, 45);
+
+        }
+
+
+
+        #textarea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 450px;
+            width: 75%;
+            border-radius: 3px;
+            outline: none;
+            border-color: rgb(201, 198, 198);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+    </style>
 </head>
 
 <body>
+    <ul>
+        <li>
+            <button type="button" onclick="executeCommand('bold')">
+                <img src="Resources/bold-xxl.png" alt="bold">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="executeCommand('underline')">
+                <img src="Resources/format_underline_white_192x192.png" alt="underline">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="executeCommand('italic')">
+                <img src="Resources/italic-xxl.png" alt="italic">
+            </button>
+        </li>
+        <li>
+            <input type="color" id="color" onchange="changeTextColor()">
 
-   
-    
-    
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="executeCommand('justifyLeft')">
+                <img src="Resources/left.png" alt="align-left">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="executeCommand('justifyCenter')">
+                <img src="Resources/center.png" alt="center">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="executeCommand('justifyRight')">
+                <img src="Resources/right.png" alt="align-right">
+            </button>
+        </li>
+
+        <li>
+            <button type="button" onclick="executeCommand('justifyFull')">
+                <img src="Resources/justify.png" alt="justify">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="undo()">
+                <img src="Resources/undo-4-32.png" alt="undo">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="redo()">
+                <img src="Resources/action-redo-32.png" alt="redo">
+            </button>
+        </li>
+    </ul>
+    <br>
+    <div id="textarea" contenteditable="true"></div>
+
+
+    <script>
+        let textarea = document.getElementById('textarea');
+        let colorPicker = document.getElementById('color');
+
+        function executeCommand(command) {
+            document.execCommand(command, false, null);
+        }
+        function changeTextColor() {
+            let color = colorPicker.value;
+            document.execCommand('foreColor', false, color);
+        }
+
+        // Initialize the text editor and history
+
+        let history = [];
+        let historyIndex = -1;
+
+        function saveState() {
+            history = history.slice(0, historyIndex + 1);
+            history.push(textarea.innerHTML);
+            historyIndex++;
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                textarea.innerHTML = history[historyIndex];
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                textarea.innerHTML = history[historyIndex];
+            }
+        }
+
+        textarea.addEventListener('input', saveState);
+
+    </script>
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 <!-- Author: [E.K.R Heshanee] | [CT/2019/025] -->
+
 </html>
