@@ -10,12 +10,71 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Text Editor - [CT/2019/025]</title>
+    <style>
+        ul {
+            list-style-type: none;
+            background-color: rgb(49, 45, 45);
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        li {
+            display: inline;
+           
+        }
+
+        img {
+            width: 15px;
+            height: 15px;
+            border: none;
+           
+        }
+
+        button {
+            border: none;
+            background-color: rgb(49, 45, 45);
+           
+        }
+
+        
+
+        #textarea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 450px;
+            width: 75%;
+            border-radius: 3px;
+            outline: none;
+            border-color: rgb(201, 198, 198);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+    </style>
 </head>
 
 <body>
+    <ul>
+        <li>
+            <button type="button" onclick="executeCommand('bold')">
+                <img src="Resources/bold-xxl.png" alt="bold">
+            </button>
+        </li>
+    </ul>
+    <br>
+    <div id="textarea" contenteditable="true"></div>
 
-   
+
+    <script>
+        let textarea = document.getElementById('textarea');
+
+        function executeCommand(command) {
+            document.execCommand(command, false, null);
+        }
     
+    </script>
     
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
