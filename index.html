@@ -72,6 +72,11 @@
                 <img src="Resources/italic-xxl.png" alt="italic">
             </button>
         </li>
+        <li>
+            <input type="color" id="color" onchange="changeTextColor()">
+
+            </button>
+        </li>
     </ul>
     <br>
     <div id="textarea" contenteditable="true"></div>
@@ -79,9 +84,14 @@
 
     <script>
         let textarea = document.getElementById('textarea');
+        let colorPicker = document.getElementById('color');
 
         function executeCommand(command) {
             document.execCommand(command, false, null);
+        }
+        function changeTextColor() {
+            let color = colorPicker.value;
+            document.execCommand('foreColor', false, color);
         }
     
     </script>
