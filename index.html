@@ -98,6 +98,16 @@
                 <img src="Resources/justify.png" alt="justify">
             </button>
         </li>
+        <li>
+            <button type="button" onclick="undo()">
+                <img src="Resources/undo-4-32.png" alt="undo">
+            </button>
+        </li>
+        <li>
+            <button type="button" onclick="redo()">
+                <img src="Resources/action-redo-32.png" alt="redo">
+            </button>
+        </li>
     </ul>
     <br>
     <div id="textarea" contenteditable="true"></div>
@@ -114,6 +124,33 @@
             let color = colorPicker.value;
             document.execCommand('foreColor', false, color);
         }
+
+        // Initialize the text editor and history
+
+        let history = [];
+        let historyIndex = -1;
+
+        function saveState() {
+            history = history.slice(0, historyIndex + 1);
+            history.push(textarea.innerHTML);
+            historyIndex++;
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                textarea.innerHTML = history[historyIndex];
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                textarea.innerHTML = history[historyIndex];
+            }
+        }
+
+        textarea.addEventListener('input', saveState);
 
     </script>
 
